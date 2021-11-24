@@ -1,19 +1,25 @@
-require('dotenv').config()
+require('dotenv').config() 
 const express = require('express')
-const app = express()
+const app = express() 
 const port = process.env.PORT || 5000;
+
 
 const fs = require('fs');
 const { prefix } = require('./config.json');
-const Discord = require('discord.js');
+const Discord = require('discord.js'); 
+
+const memberCounter =  require('./counters/member-counters'); 
 
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
 client.cronjobs = new Discord.Collection();
 
+
+
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 for (const file of commandFiles) {
   const command = require(`./commands/${file}`);
+ 
   // set a new item in the Collection
   // with the key as the command name and the value as the exported module
   client.commands.set(command.name, command);
@@ -22,6 +28,7 @@ for (const file of commandFiles) {
 const cronFiles = fs.readdirSync('./cronjobs').filter(file => file.endsWith('.js'));
 for (const file of cronFiles) {
   const job = require(`./cronjobs/${file}`);
+
   // set a new item in the Collection
   // with the key as the job name and the value as the exported module
   if (job.enabled) {
@@ -32,6 +39,7 @@ for (const file of cronFiles) {
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
+  memberCounter(client);
   client.cronjobs.forEach((value, key) => {
     setInterval(function() {
       value.execute(client);
@@ -39,10 +47,10 @@ client.on('ready', () => {
   });
 })
 
-client.on('message', msg => {
-  if (!msg.content.startsWith(prefix) || msg.author.bot) return;
-
+client.on('message', msg => {  
+  if (!msg.content.startsWith(prefix) || msg.author.bot) return; 
   const args = msg.content.slice(prefix.length).trim().split(' ');
+  console.log(args);
   const commandName  = args.shift().toLowerCase();
 
   if (!client.commands.has(commandName)) return;

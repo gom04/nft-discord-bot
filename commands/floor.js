@@ -1,6 +1,5 @@
 const fetch = require('node-fetch');
-const { openseaAssetUrl } = require('../config.json');
-
+const { openseaAssetUrl } = require('../config.json'); 
 const CacheService = require('../cache')
 
 const ttl = 60; //cache for 60 seconds;

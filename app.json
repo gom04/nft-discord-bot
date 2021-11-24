@@ -14,6 +14,13 @@
       "description": "Ethereum address for the NFT Smart Contract",
       "required": true
     },
+    "COLLECTION_SLUG": {
+      "description": "The OpenSea slug for your collection"
+    },
+    "DISCORD_CHANNEL_ID": {
+      "description": "Your Discord channel ID (snowflake), i.e. 694927656805859499, where your Bot has access and will post",
+      "required": false
+    },
     "DISCORD_BOT_TOKEN": {
       "description": "Pretty self explanatory",
       "required": true
